@@ -65,7 +65,6 @@ public class Player extends GameObject {
         else if (getPixelPosition().y < 0)
             body.setTransform(body.getPosition().x, 544 / PIXELS_PER_METER, 0);
     }
-
     public Vector2 getPixelPosition() {
         return new Vector2(
             body.getPosition().x * PIXELS_PER_METER,
