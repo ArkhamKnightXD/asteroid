@@ -38,7 +38,7 @@ public class GameScreen extends ScreenAdapter {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        player = new Player(new Rectangle(500, 350, 32, 32), world);
+        player = new Player(new Rectangle(game.screenWidth/2f, game.screenHeight/2f , 32, 32), world);
     }
 
     @Override

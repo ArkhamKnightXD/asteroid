@@ -12,14 +12,11 @@ import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class Player extends GameObject {
     public static int score;
-    private final Vector2 velocity;
-    private final int speed;
+    private float angle;
 
     public Player(Rectangle bounds, World world) {
         super(bounds, world, "player-ship.png", "laser.wav");
         score = 0;
-        velocity = new Vector2();
-        speed = 10;
     }
 
     @Override
@@ -31,25 +28,29 @@ public class Player extends GameObject {
 
     public void update() {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
-            velocity.x = 1.5f;
+        if (Gdx.input.isKeyPressed(Input.Keys.W))
+            applyLinealImpulse(new Vector2(angle, 1));
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.A))
-            velocity.x = -1.5f;
+        else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.W))
-            velocity.y = 1.5f;
+            angle-= 0.01f;
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.S))
-            velocity.y = -1.5f;
+            body.setTransform(body.getPosition(), angle);
+        }
 
-        body.setLinearVelocity(velocity.x * speed, velocity.y * speed);
+        else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 
-        velocity.scl(0);
+            angle+= 0.01f;
+
+            body.setTransform(body.getPosition(), angle);
+        }
 
         manageScreenWrapping();
     }
 
+    private void applyLinealImpulse(Vector2 impulseDirection) {
+        body.applyLinearImpulse(impulseDirection, body.getWorldCenter(), true);
+    }
     private void manageScreenWrapping() {
 
         if (getPixelPosition().x > 960)
